@@ -6,7 +6,7 @@ Project with algorithms  implementations and frameworks for their analysis
 Base Algorithms
 ---------------
 - Union Find
-- TBD
+- Quick Sort
 
 Framework for Angorithms analysis
 ---------------------------------
