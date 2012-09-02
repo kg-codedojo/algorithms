@@ -69,8 +69,8 @@ public class MergeSortTest {
         assertThat(ms.sort(new int[]{4,2,3,1}) ).isEqualTo(new int[]{1, 2, 3, 4});
     }
 
-    @Test public void testPerformance(){
-        int[] input = TestUtil.loadArray("src/test/data/IntegerArray.txt");
+    @Test public void testPerformance100K(){
+        int[] input = TestUtil.generateRandomArray(100000);//TestUtil.loadArray("src/test/data/IntegerArray.txt");
         Date start = new Date();
         int[] output = ms.sort(input);
         Date end = new Date();
@@ -78,7 +78,7 @@ public class MergeSortTest {
         System.out.println("MergeSort=> Performance in mils: " + (end.getTime() - start.getTime()));
     }
 
-    @Test public void testPerformanceBig(){
+    @Test public void testPerformance1M(){
         int[] input = TestUtil.generateRandomArray(1000000);
         Date start = new Date();
         int[] output = ms.sort(input);

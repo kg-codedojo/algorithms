@@ -64,21 +64,32 @@ public class InversionCounterTest {
     @Test public void testInput135246Out3(){
         assertThat(inversionCounter.count(new int[]{1,3,5,2,4,6})).isEqualTo(3);
     }
-    @Test public void testPerformance(){
-        int[] input = TestUtil.loadArray("src/test/data/IntegerArray.txt");
+    @Test public void testPerformance100K(){
+        int[] input = TestUtil.generateRandomArray(100000);//TestUtil.loadArray("src/test/data/IntegerArray.txt");
         Date start = new Date();
         Date end = new Date();
         int inversions = inversionCounter.count(input);
-        assertThat(inversions).isGreaterThan(0);//exact figure
+        assertThat(inversions).isGreaterThan(0);//exact figure cannot be tested due to random input data
         assertThat(end.getTime() - start.getTime()).isLessThan(1000);
     }
-    @Test public void testPerformanceSortedArray1M(){
+    @Test public void testPerformanceSortedArray100KSorted(){
         int[] inputArray = TestUtil.generateRandomArray(100000);
         int[] sortedArray = new MergeSort().sort(inputArray);
         Date start = new Date();
         int inversions = inversionCounter.count(sortedArray);
         Date end = new Date();
         assertThat(inversions).isEqualTo(0);
+        assertThat(end.getTime() - start.getTime()).isLessThan(1000);
+    }
+    @Test public void testPerformanceSortedArray1MUnsorted(){
+        int[] inputArray = TestUtil.generateRandomArray(1000000);
+        int[] sortedArray = new MergeSort().sort(inputArray);
+        sortedArray[sortedArray.length-1]=0;
+        Date start = new Date();
+        int inversions = inversionCounter.count(sortedArray);
+        Date end = new Date();
+        assertThat(inversions).isGreaterThan(999990);
+        assertThat(inversions).isLessThan(1000000);
         assertThat(end.getTime() - start.getTime()).isLessThan(1000);
     }
 }
