@@ -1,8 +1,6 @@
 package codedojo.algorithms;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-import sun.font.CoreMetrics;
 
 import java.util.Arrays;
 
@@ -69,5 +67,28 @@ public class QuickSortTest {
     @Test public void test(){
         int[] leftPart = Arrays.copyOfRange(new int[]{4,2,3,1}, 0, 2);
         assertThat(leftPart).isEqualTo(new int[]{4,2});
+    }
+    /**
+     * Compute the total number of comparisons used to sort the given input file by QuickSort
+     *
+     * 1st case: always use the first element of the array as the pivot element
+     */
+    @Test public void testFirstElementOfTheArrayAsThePivotElement(){
+        QuickSort qs = new QuickSort(QuickSort.TYPE.FIRST);
+        qs.sort(new int[]{3,8,2,5,1,4,7,6});
+        assertThat(qs.getComparisonCount()).isEqualTo(28);
+    }
+
+    @Test public void testRANDOMElementOfTheArrayAsThePivotElement(){
+        QuickSort qs = new QuickSort(QuickSort.TYPE.RANDOM);
+        qs.sort(new int[]{3,8,2,5,1,4,7,6});
+        assertThat(qs.getComparisonCount()).isEqualTo(28);
+    }
+
+    @Test public void testParition(){
+        QuickSort qs = new QuickSort(QuickSort.TYPE.FIRST);
+        int[] array = {3, 8, 2, 5, 1, 4, 7, 6};
+        qs.partition(array,0,0,8);
+        assertThat(array).isEqualTo(new int[]{1, 2, 3, 5, 8, 4, 7, 6});
     }
 }
