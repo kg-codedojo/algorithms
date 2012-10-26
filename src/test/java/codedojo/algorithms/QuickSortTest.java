@@ -2,7 +2,9 @@ package codedojo.algorithms;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -18,6 +20,8 @@ import static org.fest.assertions.Assertions.assertThat;
  * User ~ Date ~ Time: KonstantinG ~ 8/29/12 ~ 5:08 PM
  */
 public class QuickSortTest {
+    private static final InversionCounter inversionCounter = new InversionCounter();
+
     @Test public void testNull(){
         QuickSort qs = new QuickSort();
 
@@ -46,7 +50,7 @@ public class QuickSortTest {
     }
 
     @Test public void testIn32851473Out12334578(){
-        QuickSort qs = new QuickSort();
+        QuickSort qs = new QuickSort(QuickSort.TYPE.RANDOM);
         assertThat(qs.sort(new int[]{3,2,8,5,1,4,7,3}) ).isEqualTo(new int[]{1,2,3,3,4,5,7,8});
     }
 
@@ -82,7 +86,7 @@ public class QuickSortTest {
     @Test public void testRANDOMElementOfTheArrayAsThePivotElement(){
         QuickSort qs = new QuickSort(QuickSort.TYPE.RANDOM);
         qs.sort(new int[]{3,8,2,5,1,4,7,6});
-        assertThat(qs.getComparisonCount()).isEqualTo(28);
+        assertThat(qs.getComparisonCount()).isEqualTo(18);
     }
 
     @Test public void testParition(){
@@ -90,5 +94,16 @@ public class QuickSortTest {
         int[] array = {3, 8, 2, 5, 1, 4, 7, 6};
         qs.partition(array,0,0,8);
         assertThat(array).isEqualTo(new int[]{1, 2, 3, 5, 8, 4, 7, 6});
+    }
+
+    @Test public void testPerformance1M(){
+        QuickSort qs = new QuickSort(QuickSort.TYPE.FIRST);
+        int[] input = TestUtil.generateRandomArray(1000);
+        Date start = new Date();
+        int[] output = qs.sort(input);
+        Date end = new Date();
+        assertThat(inversionCounter.count(output)).isEqualTo(0);
+        TestUtil.saveArray(output,"src/test/data/out/SortedIntegerArray1M.txt");
+        System.out.println("QuickSort=> Performance in mils: " + (end.getTime() - start.getTime()));
     }
 }
